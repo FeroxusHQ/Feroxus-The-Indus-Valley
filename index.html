@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feroxus | Strategic Proposal for The Indus Valley</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals & Subtle Earth Tones -->
+    <!-- Application Structure Plan: A narrative-driven, four-part structure. 1) The Core Challenge: Hook the user with the central business paradox (growth vs. unprofitability). 2) The Diagnosis: Interactively explore the root cause—the "customer education gap"—and its cascading negative effects. 3) The Solutions: A tabbed interface to detail each of the three tech-driven proposals (3D, AR, AI), showcasing features and projected KPIs. 4) The Impact: A summary dashboard visualizing the transformative effect on profitability and key metrics. This structure was chosen to guide the user logically from problem to solution to payoff, making a complex business case digestible and persuasive. -->
+    <!-- Visualization & Content Choices: 1. Financial Paradox (Goal: Compare) -> Dual-axis bar/line chart (Chart.js) to show revenue growth against net loss, immediately highlighting the core problem. 2. Problem Cascade (Goal: Organize) -> Interactive diagram (HTML/CSS/JS) to trace the education gap to unprofitability, making the connection clear. 3. Solution KPIs (Goal: Inform) -> Horizontal bar charts (Chart.js) within each solution tab to quantify the projected benefits (e.g., reduced returns, lower support costs). 4. Final Impact (Goal: Summarize) -> KPI cards and a donut chart (Chart.js) to provide a powerful, at-a-glance summary of the overall projected business transformation. All choices prioritize clarity and engagement within the designed narrative flow. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 45vh;
+            max-height: 450px;
+        }
+        .kpi-chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 30vh;
+            max-height: 280px;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link.active {
+            color: #C89B7B;
+            border-bottom-color: #C89B7B;
+        }
+        .tab-btn.active {
+            background-color: #C89B7B;
+            color: #FFFFFF;
+        }
+        .tab-btn {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .diagram-item {
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .diagram-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+            /* Fix: anchor targets hidden under sticky header */
+        section { scroll-margin-top: 96px; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-[#FDFBF8]/80 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-200/50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-[#4A4A4A]">
+                <span class="font-light">Feroxus for</span> The Indus Valley
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#challenge" class="nav-link text-gray-600 hover:text-[#C89B7B] border-b-2 border-transparent pb-1">The Challenge</a>
+                <a href="#diagnosis" class="nav-link text-gray-600 hover:text-[#C89B7B] border-b-2 border-transparent pb-1">The Diagnosis</a>
+                <a href="#solutions" class="nav-link text-gray-600 hover:text-[#C89B7B] border-b-2 border-transparent pb-1">Our Solutions</a>
+                <a href="#impact" class="nav-link text-gray-600 hover:text-[#C89B7B] border-b-2 border-transparent pb-1">Projected Impact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 md:py-20">
+
+        <section id="challenge" class="text-center min-h-[80vh] flex flex-col justify-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 text-[#4A4A4A]">High Growth Meets a Profitability Hurdle.</h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10">
+                The Indus Valley has achieved remarkable success, establishing itself as a leader in healthy cookware with impressive top-line growth. However, this growth masks a critical underlying challenge: the path to profitability is blocked. This proposal outlines a technology-driven strategy to bridge that gap and unlock sustainable success.
+            </p>
+            <div class="chart-container">
+                <canvas id="financialsChart"></canvas>
+            </div>
+             <p class="text-sm text-gray-500 mt-4">FY 2022-23 Financials (in ₹ Crores). Hover over the chart for details.</p>
+        </section>
+
+        <hr class="my-20 border-gray-200/80">
+
+        <section id="diagnosis" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#4A4A4A] mb-3">The Diagnosis: A Critical Education Gap</h2>
+                <p class="text-lg text-gray-600 max-w-4xl mx-auto">
+                    Our analysis reveals the core issue is not product quality, but a gap between the product's requirements and the modern user's knowledge. Traditional materials like cast iron require specific care (seasoning, heat control) that is often misunderstood. This single friction point creates a cascade of negative business outcomes. Click on each step below to see how.
+                </p>
+            </div>
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 mb-8">
+                <div id="diag-item-1" class="diagram-item bg-white p-4 rounded-lg shadow-sm border border-gray-200/80 text-center">
+                    <span class="text-3xl"> Gap</span>
+                    <p class="font-semibold mt-2">Customer Education Gap</p>
+                </div>
+                <div class="text-2xl text-gray-400 font-light mx-2">→</div>
+                <div id="diag-item-2" class="diagram-item bg-white p-4 rounded-lg shadow-sm border border-gray-200/80 text-center">
+                    <span class="text-3xl">🤔</span>
+                    <p class="font-semibold mt-2">Common User Errors</p>
+                </div>
+                <div class="text-2xl text-gray-400 font-light mx-2">→</div>
+                <div id="diag-item-3" class="diagram-item bg-white p-4 rounded-lg shadow-sm border border-gray-200/80 text-center">
+                    <span class="text-3xl">📉</span>
+                    <p class="font-semibold mt-2">Negative Outcomes</p>
+                </div>
+                <div class="text-2xl text-gray-400 font-light mx-2">→</div>
+                <div id="diag-item-4" class="diagram-item bg-white p-4 rounded-lg shadow-sm border border-gray-200/80 text-center">
+                     <span class="text-3xl">💸</span>
+                    <p class="font-semibold mt-2">Financial Impact</p>
+                </div>
+            </div>
+            <div id="diagnosis-details" class="bg-white p-8 rounded-xl shadow-md border border-gray-200/80 min-h-[200px] max-w-4xl mx-auto transition-opacity duration-500">
+                <p class="text-gray-600 text-lg">Select a stage in the diagram to explore the details of the problem.</p>
+            </div>
+        </section>
+
+        <hr class="my-20 border-gray-200/80">
+
+        <section id="solutions" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#4A4A4A] mb-3">The Feroxus Solution: A Tech-Led Transformation</h2>
+                <p class="text-lg text-gray-600 max-w-4xl mx-auto">
+                    To solve these challenges, we propose a three-pronged strategy leveraging our expertise in immersive technology and intelligent automation. Each solution is designed to tackle a specific part of the problem, turning a key weakness into a powerful competitive advantage and paving a clear path to profitability.
+                </p>
+            </div>
+            <div class="flex justify-center mb-8">
+                <div class="flex space-x-2 md:space-x-4 bg-gray-100 p-2 rounded-full">
+                    <button class="tab-btn active px-4 py-2 md:px-6 md:py-3 text-sm md:text-base font-semibold rounded-full" data-tab="solution1">1. 3D & Interactive Guides</button>
+                    <button class="tab-btn px-4 py-2 md:px-6 md:py-3 text-sm md:text-base font-semibold rounded-full text-gray-600" data-tab="solution2">2. Immersive AR Experience</button>
+                    <button class="tab-btn px-4 py-2 md:px-6 md:py-3 text-sm md:text-base font-semibold rounded-full text-gray-600" data-tab="solution3">3. AI-Powered Automation</button>
+                </div>
+            </div>
+            <div id="solution-content" class="max-w-5xl mx-auto">
+            </div>
+        </section>
+
+        <hr class="my-20 border-gray-200/80">
+
+        <section id="impact" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#4A4A4A] mb-3">Projected Business Impact</h2>
+                <p class="text-lg text-gray-600 max-w-4xl mx-auto">
+                    This strategic partnership is designed to deliver significant, measurable improvements across the business. By transforming the customer journey and optimizing operations, we will not only solve the profitability puzzle but also build a more resilient, scalable, and beloved brand for the future.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200/80">
+                    <h3 class="text-xl font-semibold text-[#C89B7B] mb-2">Profitability</h3>
+                    <p class="text-4xl font-bold text-green-600 mb-2">Positive</p>
+                    <p class="text-gray-500">Shift from an ₹8.98 Cr loss to a sustainable, profitable model by reducing key operational costs.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200/80">
+                    <h3 class="text-xl font-semibold text-[#C89B7B] mb-2">Conversion Rate</h3>
+                    <p class="text-4xl font-bold text-gray-800 mb-2">+15-20%</p>
+                    <p class="text-gray-500">Increase on key product pages by building pre-purchase confidence with interactive 3D/AR experiences.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200/80">
+                    <h3 class="text-xl font-semibold text-[#C89B7B] mb-2">Support Costs</h3>
+                    <p class="text-4xl font-bold text-gray-800 mb-2">-50%</p>
+                    <p class="text-gray-500">Reduction in Tier-1 support tickets through AI chatbot automation and proactive education.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200/80">
+                    <h3 class="text-xl font-semibold text-[#C89B7B] mb-2">Product Returns</h3>
+                    <p class="text-4xl font-bold text-gray-800 mb-2">-10-15%</p>
+                    <p class="text-gray-500">Decrease in returns by setting accurate expectations and preventing common user errors.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200/80">
+                    <h3 class="text-xl font-semibold text-[#C89B7B] mb-2">Customer Satisfaction</h3>
+                    <p class="text-4xl font-bold text-gray-800 mb-2">+10%</p>
+                    <p class="text-gray-500">Improvement in CSAT scores with instant, 24/7 support and a seamless onboarding experience.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200/80">
+                    <h3 class="text-xl font-semibold text-[#C89B7B] mb-2">Brand Equity</h3>
+                    <p class="text-4xl font-bold text-gray-800 mb-2">Elevated</p>
+                    <p class="text-gray-500">Positioning as a tech-forward, customer-centric leader in the premium cookware market.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200/80 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
+            <p class="text-lg font-semibold text-[#4A4A4A] mb-2">Let's Build Something Extraordinary.</p>
+            <p>This interactive proposal was generated by Feroxus to outline a strategic partnership with The Indus Valley.</p>
+            <p class="mt-4 text-sm">&copy; 2024 Feroxus. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const headerEl = document.querySelector('header');
+            const headerHeight = headerEl ? headerEl.offsetHeight : 0;
+            
+            const data = {
+                financials: {
+                    revenue: 38.82,
+                    expenses: 47.82,
+                    loss: -8.98,
+                },
+                diagnosis: {
+                    "diag-item-1": {
+                        title: "The Customer Education Gap",
+                        content: "The Indus Valley's core products, made from traditional materials like cast iron, require specific knowledge for seasoning, heat management, and cleaning. Most modern consumers are accustomed to non-stick cookware and lack this essential knowledge, creating a fundamental gap between product potential and user proficiency."
+                    },
+                    "diag-item-2": {
+                        title: "Common User Errors",
+                        content: "This knowledge gap leads directly to user error. Customers report food burning in the center (improper heat management), pans rusting after one wash (incorrect cleaning/drying), and food sticking (misunderstanding the seasoning process). These are not product faults, but symptoms of the education gap. <br><br><em>'What is wrong with this iron cookware? The bottom portion of the food is getting burnt while top portion remains uncooked.' - Reddit User</em>"
+                    },
+                    "diag-item-3": {
+                        title: "Cascading Negative Outcomes",
+                        content: "User errors result in a poor customer experience, which manifests as damaging public reviews, a high rate of product returns from frustrated customers who believe the product is defective, and an unsustainable burden on customer support teams who must repeatedly answer the same questions."
+                    },
+                    "diag-item-4": {
+                        title: "Direct Financial Impact",
+                        content: "Each negative outcome has a direct cost. High return rates mean lost revenue and logistical costs. A heavy support load inflates operational overhead. Negative social proof deters new customers, increasing acquisition costs. Together, these factors are the primary drivers of the company's unprofitability, directly contributing to the <strong>₹8.98 Cr loss</strong>."
+                    }
+                },
+                solutions: {
+                    solution1: {
+                        title: "Hyper-Realistic 3D & Interactive Guides",
+                        description: "We will transform product pages from static displays into dynamic, interactive learning hubs. By embedding high-fidelity 3D models and animated 'explainer' guides, we can proactively educate customers *before* they buy, building confidence and preventing the most common user errors.",
+                        features: [
+                            { icon: '🔄', text: 'Interactive 360° 3D product models to inspect every detail.' },
+                            { icon: '🔬', text: "Animated 'Seasoning Science' module to visualize the process." },
+                            { icon: '🔥', text: '3D \'Heat Dynamics\' guide to explain proper heat management.' }
+                        ],
+                        kpis: {
+                            labels: ['Support Tickets (Use & Care)', 'Product Returns (Perceived Defect)', 'Conversion Rate'],
+                            data: [-25, -10, 20],
+                            label: '% Change'
+                        }
+                    },
+                    solution2: {
+                        title: "Immersive AR-Powered Kitchen Experience",
+                        description: "To justify the premium price point and reduce purchase anxiety, we will implement a WebAR 'View in Your Kitchen' feature. This allows customers to place a true-to-scale 3D model of the cookware on their own stovetop using their phone, creating a 'wow' factor and ensuring a perfect fit.",
+                        features: [
+                            { icon: '📱', text: 'App-less WebAR to visualize products in the user\'s home.' },
+                            { icon: '📏', text: 'True-to-scale models to eliminate uncertainty about size.' },
+                            { icon: '📦', text: 'AR-enhanced packaging for an interactive post-purchase onboarding.' }
+                        ],
+                        kpis: {
+                            labels: ['User Engagement (Time on Page)', 'Returns (Size/Fit Issues)'],
+                            data: [50, -5],
+                            label: '% Change'
+                        }
+                    },
+                    solution3: {
+                        title: "AI-Powered Customer Support & Personalization",
+                        description: "To tackle operational inefficiency head-on, we will deploy a sophisticated AI chatbot trained on The Indus Valley's entire knowledge base. It will provide instant, 24/7 answers to common questions, freeing up human agents and dramatically reducing costs. We will also use AI to personalize post-purchase marketing.",
+                        features: [
+                            { icon: '🤖', text: 'AI Chatbot to automate >70% of common support queries.' },
+                            { icon: '🧠', text: 'Trained on 2,400+ videos and all \'Use & Care\' articles.' },
+                            { icon: '📧', text: 'AI-driven personalized email & WhatsApp journeys for customers.' }
+                        ],
+                        kpis: {
+                            labels: ['Support Ticket Deflection', 'CSAT Score', 'Marketing Campaign Conversion'],
+                            data: [50, 10, 25],
+                            label: '% Change'
+                        }
+                    }
+                }
+            };
+
+            const financialCtx = document.getElementById('financialsChart').getContext('2d');
+            new Chart(financialCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['FY 2022-23'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [data.financials.revenue],
+                        backgroundColor: 'rgba(167, 199, 184, 0.6)',
+                        borderColor: 'rgba(167, 199, 184, 1)',
+                        borderWidth: 1,
+                        yAxisID: 'y'
+                    }, {
+                        label: 'Expenses',
+                        data: [data.financials.expenses],
+                        backgroundColor: 'rgba(235, 171, 142, 0.6)',
+                        borderColor: 'rgba(235, 171, 142, 1)',
+                        borderWidth: 1,
+                        yAxisID: 'y'
+                    }, {
+                        label: 'Net Profit/Loss',
+                        data: [data.financials.loss],
+                        type: 'line',
+                        borderColor: '#A64A4A',
+                        backgroundColor: '#A64A4A',
+                        tension: 0.1,
+                        yAxisID: 'y1',
+                        borderWidth: 3,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#A64A4A',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: { display: true, text: 'Amount (in ₹ Crores)' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            title: { display: true, text: 'Net Profit/Loss (in ₹ Crores)' }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += `₹${context.parsed.y.toFixed(2)} Cr`;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const diagramItems = document.querySelectorAll('.diagram-item');
+            const detailsContainer = document.getElementById('diagnosis-details');
+            diagramItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const itemData = data.diagnosis[item.id];
+                    detailsContainer.style.opacity = 0;
+                    setTimeout(() => {
+                        detailsContainer.innerHTML = `
+                            <h3 class="text-2xl font-bold text-[#4A4A4A] mb-4">${itemData.title}</h3>
+                            <p class="text-gray-600">${itemData.content}</p>
+                        `;
+                        detailsContainer.style.opacity = 1;
+                    }, 300);
+                });
+            });
+
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const solutionContent = document.getElementById('solution-content');
+            let kpiChart = null;
+
+            function renderSolutionContent(tabId) {
+                const solutionData = data.solutions[tabId];
+                solutionContent.innerHTML = `
+                    <div class="bg-white p-8 rounded-xl shadow-md border border-gray-200/80 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold text-[#4A4A4A] mb-4">${solutionData.title}</h3>
+                            <p class="text-gray-600 mb-6">${solutionData.description}</p>
+                            <ul class="space-y-3">
+                                ${solutionData.features.map(feature => `
+                                    <li class="flex items-start">
+                                        <span class="text-xl mr-3">${feature.icon}</span>
+                                        <span>${feature.text}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                        <div>
+                             <h4 class="text-lg font-semibold text-center mb-4 text-gray-700">Projected KPI Impact</h4>
+                            <div class="kpi-chart-container">
+                                <canvas id="kpiChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                const kpiCtx = document.getElementById('kpiChart').getContext('2d');
+                if (kpiChart) {
+                    kpiChart.destroy();
+                }
+                kpiChart = new Chart(kpiCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: solutionData.kpis.labels.map(label => label.length > 20 ? label.match(/.{1,20}/g) : label),
+                        datasets: [{
+                            label: solutionData.kpis.label,
+                            data: solutionData.kpis.data,
+                            backgroundColor: solutionData.kpis.data.map(d => d > 0 ? 'rgba(167, 199, 184, 0.7)' : 'rgba(235, 171, 142, 0.7)'),
+                            borderColor: solutionData.kpis.data.map(d => d > 0 ? 'rgba(167, 199, 184, 1)' : 'rgba(235, 171, 142, 1)'),
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                             tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.x !== null) {
+                                            label += `${context.parsed.x}%`;
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Percentage Change (%)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.classList.add('text-gray-600');
+                    });
+                    button.classList.add('active');
+                    button.classList.remove('text-gray-600');
+                    renderSolutionContent(button.dataset.tab);
+                });
+            });
+
+            renderSolutionContent('solution1');
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            // Smooth scroll with header offset & immediate active state
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const href = link.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (!target) return;
+                        // set active state immediately
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                        window.scrollTo({
+                            top: target.offsetTop - headerHeight - 16,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Scroll spy using header offset
+            window.addEventListener('scroll', () => {
+                let currentSectionId = '';
+                const scrollPos = window.scrollY + headerHeight + 32; // buffer
+
+                sections.forEach(section => {
+                    const top = section.offsetTop;
+                    const bottom = top + section.offsetHeight;
+                    if (scrollPos >= top && scrollPos < bottom) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+
+                if (!currentSectionId) return;
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + currentSectionId) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
